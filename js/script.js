@@ -9,16 +9,9 @@ function log(message) {
     document.body.appendChild(messageElement);
 }
 
-function logTitle(message) {
-  // Crea un nuevo elemento h2 y establece su contenido de texto al mensaje
-  var messageElement = document.createElement('h2');
-  messageElement.textContent = message;
-
-  // Agrega el nuevo elemento al cuerpo del documento
-  document.body.appendChild(messageElement);
-}
-
 const poiList = document.querySelector(".poiList");
+const form = document.querySelector(".form-control");
+
 
 class Review{
     constructor(comment, score){
@@ -165,7 +158,7 @@ class Review{
       </article>`
           break;
         case 3: 
-        `<article>
+        print = `<article>
         <div class="location-coor">
             <h3>${this._description}</h3>
             <div class="coordinates">
@@ -177,19 +170,20 @@ class Review{
     </article>`
           break;
         case null:
-          `<article>
+          print = `<article>
           <div class="location-coor">
               <h3>${this._description}</h3>
               <div class="coordinates">
                   <p><span class="bold">longitude:</span> ${this._longitud}</p>
                   <p><span class="bold">latitude:</span> ${this._latitud}</p>
-                  <p><span class="bold">Nº of Reviews: </span>${this._reviews.length} No reviews yet</p>
+                  <p><span class="bold">Nº of Reviews: </span> 0</p>
               </div>
           </div>
       </article>`
           break;
       }
       return print
+      
     }
     
     printAllReviews(){
@@ -310,13 +304,32 @@ let poiManager = new POIManager(initialInfo);
 
 //Option 1:
 function addNewPOI(){
-    let lon = parseFloat(prompt("Introduce the longitude: "));
-    let lat = parseFloat(prompt("Introduce the latitude: "));
-    let des = prompt("Introduce a description: ");
+  form.innerHTML = `<input type="text" id="longitude" placeholder="Longitude..." />
+  <input type="text" id="latitude" placeholder="Latitude..." />
+  <input type="text" id="description" placeholder="Description..." />
+  <button type="button" id="submit">
+      Submit New POI
+  </button>`;
+
+  const btn = document.getElementById("submit");
+  const inputLon = document.getElementById("longitude");
+  const inputLat = document.getElementById("latitude");
+  const inputDes = document.getElementById("description");
+
+  btn.addEventListener("click", (e) => {
+    e.preventDefault();
+    lon = parseFloat(inputLon.value); 
+    lat = parseFloat(inputLat.value);
+    des = inputDes.value;
 
     let newPoi = new POI(lon, lat, des);
 
     poiManager.addPoi(newPoi);
+
+    form.innerHTML = '';
+
+    printAllPOIs();
+  })
 }
 
 //Option 2:
