@@ -9,6 +9,17 @@ function log(message) {
     document.body.appendChild(messageElement);
 }
 
+function logTitle(message) {
+  // Crea un nuevo elemento h2 y establece su contenido de texto al mensaje
+  var messageElement = document.createElement('h2');
+  messageElement.textContent = message;
+
+  // Agrega el nuevo elemento al cuerpo del documento
+  document.body.appendChild(messageElement);
+}
+
+const poiList = document.querySelector(".poiList");
+
 class Review{
     constructor(comment, score){
       this._comment = comment;
@@ -117,19 +128,65 @@ class Review{
       let print = "";
       switch(this.mitjanaValoracions()){
         case 0: 
-          print = `(#Reviews: ${this._reviews.length}, _ _ _ ) ${this._description} / Lon: ${this._longitud}, Lat: ${this._latitud}`;
+          // print = `(#Reviews: ${this._reviews.length}, _ _ _ ) ${this._description} / Lon: ${this._longitud}, Lat: ${this._latitud}`;
+          print = `<article>
+          <div class="location-coor">
+              <h3>${this._description}</h3>
+              <div class="coordinates">
+                  <p><span class="bold">longitude:</span> ${this._longitud}</p>
+                  <p><span class="bold">latitude:</span> ${this._latitud}</p>
+                  <p><span class="bold">Nº of Reviews: </span>${this._reviews.length} _ _ _</p>
+              </div>
+          </div>
+      </article>`
           break;
         case 1: 
-          print = `(#Reviews: ${this._reviews.length}, * _ _ ) ${this._description} / Lon: ${this._longitud}, Lat: ${this._latitud}`;
+          print = `<article>
+          <div class="location-coor">
+              <h3>${this._description}</h3>
+              <div class="coordinates">
+                  <p><span class="bold">longitude:</span> ${this._longitud}</p>
+                  <p><span class="bold">latitude:</span> ${this._latitud}</p>
+                  <p><span class="bold">Nº of Reviews: </span>${this._reviews.length} * _ _</p>
+              </div>
+          </div>
+      </article>`
           break;
         case 2: 
-          print = `(#Reviews: ${this._reviews.length}, * * _ ) ${this._description} / Lon: ${this._longitud}, Lat: ${this._latitud}`;
+          print = `<article>
+          <div class="location-coor">
+              <h3>${this._description}</h3>
+              <div class="coordinates">
+                  <p><span class="bold">longitude:</span> ${this._longitud}</p>
+                  <p><span class="bold">latitude:</span> ${this._latitud}</p>
+                  <p><span class="bold">Nº of Reviews: </span>${this._reviews.length} * * _</p>
+              </div>
+          </div>
+      </article>`
           break;
         case 3: 
-          print = `(#Reviews: ${this._reviews.length}, * * * ) ${this._description} / Lon: ${this._longitud}, Lat: ${this._latitud}`;
+        `<article>
+        <div class="location-coor">
+            <h3>${this._description}</h3>
+            <div class="coordinates">
+                <p><span class="bold">longitude:</span> ${this._longitud}</p>
+                <p><span class="bold">latitude:</span> ${this._latitud}</p>
+                <p><span class="bold">Nº of Reviews: </span>${this._reviews.length} * * *</p>
+            </div>
+        </div>
+    </article>`
           break;
         case null:
-          print = `(#Reviews: No Reviews yet) ${this._description} / Lon: ${this._longitud}, Lat: ${this._latitud}`;
+          `<article>
+          <div class="location-coor">
+              <h3>${this._description}</h3>
+              <div class="coordinates">
+                  <p><span class="bold">longitude:</span> ${this._longitud}</p>
+                  <p><span class="bold">latitude:</span> ${this._latitud}</p>
+                  <p><span class="bold">Nº of Reviews: </span>${this._reviews.length} No reviews yet</p>
+              </div>
+          </div>
+      </article>`
           break;
       }
       return print
@@ -205,9 +262,17 @@ class Review{
     printAllPoi(){
       let i = 1;
        for(let poi of this._poiArray){
-         log(i + ". " + poi.printInfo());
-         i++;
+          let print = poi.printInfo();
+          poiList.innerHTML = poiList.innerHTML + print;
        }
+
+       const articles = document.querySelectorAll("article");
+       articles.forEach((article) => {
+        let description = article.firstElementChild.firstElementChild;
+        let textNode = document.createTextNode(i + " ");
+        description.insertBefore(textNode, description.firstChild);
+        i++;
+       })
     }
     
     deletePoi(position){
@@ -256,10 +321,11 @@ function addNewPOI(){
 
 //Option 2:
 function printAllPOIs() {
-    log("----------------------------");
-    log("Point Of Interest List")
-    log("----------------------------");
-    poiManager.printAllPoi();
+  poiList.innerHTML = '';
+  const title = document.createElement("h2");
+  title.textContent = "POI List"
+  poiList.appendChild(title);
+  poiManager.printAllPoi();
 }
 
 //Option 3:

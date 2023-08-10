@@ -4,14 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>PAC 6</title>
-    <style>
-        button {
-            display: block;
-            margin: 10px 0;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
+    <h1>Point of Interest App</h1>
     <form>
         <button type="button" onclick="addNewPOI()">1. Añadir un nuevo POI</button>
         <button type="button" onclick="printAllPOIs()">2. Imprimir todos los POI</button>
@@ -20,6 +16,24 @@
         <button type="button" onclick="addNewReviewToPOI()">5. Añadir una review a un POI</button>
         <button type="button" onclick="removePOI()">6. Eliminar una POI</button>
     </form>
+    <div class="list-input-container">
+        <div class="poiList">
+            <!-- info Pois -->
+        </div>
+    </div>
+    
+    
+    <!-- <article>
+        <div class="location-coor">
+            <h3>1 Madrid</h3>
+            <div class="coordinates">
+                <p><span class="bold">longitude:</span> 3.56</p>
+                <p><span class="bold">latitude:</span> 3.56</p>
+                <p><span class="bold">Nº of Reviews: </span>2 ***</p>
+            </div>
+        </div>
+    </article> -->
+
 <script src="js/script.js"></script>
 </body> 
 </html>
