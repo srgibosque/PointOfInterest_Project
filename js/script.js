@@ -9,8 +9,15 @@ function log(message) {
     document.body.appendChild(messageElement);
 }
 
+function displayAlert(text){
+  const alert = document.querySelector(".alert");
+  //show alert
+  alert.textContent = text;
+}
+
 const poiList = document.querySelector(".poiList");
 const form = document.querySelector(".form-control");
+
 
 
 class Review{
@@ -318,9 +325,9 @@ function addNewPOI(){
 
   btn.addEventListener("click", (e) => {
     e.preventDefault();
-    lon = parseFloat(inputLon.value); 
-    lat = parseFloat(inputLat.value);
-    des = inputDes.value;
+    let lon = parseFloat(inputLon.value); 
+    let lat = parseFloat(inputLat.value);
+    let des = inputDes.value;
 
     let newPoi = new POI(lon, lat, des);
 
@@ -343,23 +350,51 @@ function printAllPOIs() {
 
 //Option 3:
 function printPOISNearTo() {
-    let lon = parseInt(prompt("Introduce the longitude: "));
-    let lat = parseInt(prompt("Introduce the latitude: "));
-    let dist = parseInt(prompt("Introduce a maximum distance (in Km): "));
-    poiManager.printClosePoi(lon, lat, dist);
+  let lon = parseInt(prompt("Introduce the longitude: "));
+  let lat = parseInt(prompt("Introduce the latitude: "));
+  let dist = parseInt(prompt("Introduce a maximum distance (in Km): "));
+  poiManager.printClosePoi(lon, lat, dist);
 }
 
 //Option 4:
 function printAllCommentsOfPOI() {
+  form.innerHTML = `<h4>Which of the POIs you wish to see the reviews?</h4>
+  <input type="text" id="position" placeholder="Enter the number..." />
+  <button type="button" id="comments">
+      Print comments
+  </button>
+  <div class="alert-box"></div>`;
+  
+
+  const inputNum = document.getElementById("position");
+  const btn = document.getElementById("comments");
+  const alertBox = document.querySelector(".alert-box");
+  
+  
+
+  btn.addEventListener("click", (e) =>{
+    
+    e.preventDefault();
     let position;
     let isPositionCorrect = false;
-    while(isPositionCorrect == false){
-        position = parseInt(prompt("Introduce the number of the Poi you wish to see their reviews: "));
-        if(position >= 1 && position <= poiManager.poiArray.length){
-            isPositionCorrect = true;
-        }
-    }
-    poiManager.printReviews(position);
+
+    alertBox.innerHTML = `<img src="icons/warning.svg" alt="warningIcon class="warning-icon">
+    <p class="alert"></p>`;
+    // alert.innerHTML = "aaaaa";
+    displayAlert("Invalid number", "red")
+  })
+
+  // let position;
+  // let isPositionCorrect = false;
+  // while(isPositionCorrect == false){
+  //     position = parseInt(prompt("Introduce the number of the Poi you wish to see their reviews: "));
+  //     if(position >= 1 && position <= poiManager.poiArray.length){
+  //         isPositionCorrect = true;
+  //     }
+  // }
+  // poiManager.printReviews(position);
+
+  // form.innerHTML = '';
 }
 
 //Option 5:
